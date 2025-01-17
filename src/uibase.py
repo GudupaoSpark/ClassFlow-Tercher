@@ -51,14 +51,6 @@ def DEFUI(pages, theme_colors = {
             # 更新按钮状态
             e.control.selected = is_fullscreen
             page.update()
-            
-            # 保存透明度设置
-            data_dir = os.getenv("FLET_APP_STORAGE_DATA")
-            if data_dir:
-                with open(os.path.join(data_dir, "opacity.txt"), "w") as f:
-                    f.write(str(e.control.value))
-                    
-            page.update()
 
         # 页面切换处理
         def change_page_content(e):
