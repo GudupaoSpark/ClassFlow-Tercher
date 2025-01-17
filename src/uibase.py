@@ -69,10 +69,8 @@ def DEFUI(pages, theme_colors = {
                         content=ft.Container(
                             content=ft.Row(
                                 controls=[
-                                    ft.Icon(
-                                        ft.Icons.ROCKET_LAUNCH_ROUNDED,
-                                        size=16,
-                                        color=theme_colors["primary"]
+                                    ft.Image(
+                                        "src\\assets\\icon.png"
                                     ),
                                     ft.Text(
                                         page.title,
