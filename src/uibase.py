@@ -1,28 +1,7 @@
 import flet as ft
 import os
-import win32gui
 import sys
 
-# 窗口操作工具函数
-def get_all_windows():
-    hWnd_list = []
-    win32gui.EnumWindows(lambda hWnd, param: param.append(hWnd), hWnd_list)
-    return hWnd_list
-
-def get_title(hwnd):
-    title = win32gui.GetWindowText(hwnd)
-    return title
-
-def get_hwnd_from_name(name):
-    hWnd_list = get_all_windows()
-    for hwd in hWnd_list:
-        title = get_title(hwd)
-        if title == name:
-            return hwd
-
-def set_window_to_desktop(WINDOWS):
-    HWND = get_hwnd_from_name(WINDOWS)
-    return win32gui.SetParent(HWND, win32gui.FindWindow("Progman", "Program Manager"))
 
 
 def DEFUI(pages, theme_colors = {
