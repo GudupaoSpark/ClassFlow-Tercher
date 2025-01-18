@@ -6,12 +6,37 @@ from . import home
 def get_login_content(ui):
 
     def on_login_click(e):
+        # 验证输入
+        has_error = False
+        if not base_url.value:
+            base_url.error_text = "请输入 BASE_URL"
+            has_error = True
+        else:
+            base_url.error_text = None
+            
+        if not username.value:
+            username.error_text = "请输入用户名"
+            has_error = True
+        else:
+            username.error_text = None
+            
+        if not password.value:
+            password.error_text = "请输入密码"
+            has_error = True
+        else:
+            password.error_text = None
+            
+        if has_error:
+            ui.the_page.update()
+            return
+            
         print(f"Username: {username.value}, Password: {password.value}")
         
         # 保存用户信息
         data_dir = os.getenv("FLET_APP_STORAGE_DATA")
         if data_dir:
             user_data = {
+                "base_url": base_url.value,
                 "username": username.value,
                 "password": password.value
             }
@@ -22,18 +47,31 @@ def get_login_content(ui):
         np[0] = home.page
         ui.update_pages(np)
 
-    username = ft.TextField(label="用户名", width=300)
-    password = ft.TextField(label="密码", password=True, width=300)
+    base_url = ft.TextField(
+        label="BASE_URL",
+        width=600,
+        hint_text="请包括协议头"
+    )
+    username = ft.TextField(label="用户名", width=600)
+    password = ft.TextField(label="密码", password=True, width=600)
     
     co = ft.Column(
         controls=[
-            ft.Text("登录 ClassFlow", size=30),
+            ft.Image(
+                src="src/assets/icon.png",
+                width=150,
+                height=150,
+            ),
+            ft.Text("ClassFlow", size=50),
+            ft.Text("登录教师账号", size=30),
+            base_url,
             username,
             password,
             ft.Row(
                 [
                     ft.Button(
                         "登录",
+                        icon=ft.Icons.LOGIN,
                         on_click=on_login_click
                     )
                 ],
@@ -47,8 +85,18 @@ def get_login_content(ui):
 
     return ft.SafeArea(
         ft.Container(
-            co,
+            ft.Column(
+                [
+                    ft.Container(
+                        co,
+                        alignment=ft.alignment.center,
+                    )
+                ],
+                scroll=ft.ScrollMode.AUTO,
+                expand=True,
+            ),
             alignment=ft.alignment.center,
+            expand=True,
         ),
         expand=True,
     )

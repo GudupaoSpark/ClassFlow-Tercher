@@ -129,7 +129,6 @@ class UIBase:
 
     def create_navigation_rail(self, change_page_handler):
         """创建导航栏"""
-        print(self.pages)
         return ft.NavigationRail(
             selected_index=self.current_index,
             label_type=ft.NavigationRailLabelType.ALL,
@@ -140,8 +139,8 @@ class UIBase:
             indicator_color=self.theme_colors["primary"],
             destinations=[
                 ft.NavigationRailDestination(
-                    icon=page.get("icon", ft.icons.QUESTION_MARK),
-                    selected_icon=page.get("selected_icon", ft.icons.QUESTION_MARK),
+                    icon=page.get("icon", ft.Icons.QUESTION_MARK),
+                    selected_icon=page.get("selected_icon", ft.Icons.QUESTION_MARK),
                     label=page.get("label", "未命名")
                 ) for page in self.pages
             ],

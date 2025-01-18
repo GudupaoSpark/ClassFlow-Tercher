@@ -4,18 +4,21 @@ import json
 from const import *
 from . import login
 
-def get_username():
+def get_user_info():
     data_dir = os.getenv("FLET_APP_STORAGE_DATA")
     if data_dir and os.path.exists(os.path.join(data_dir, "user.json")):
         with open(os.path.join(data_dir, "user.json"), "r") as f:
             user_data = json.load(f)
-            return user_data.get("username")
-    return None
+            return {
+                "username": user_data.get("username"),
+                "base_url": user_data.get("base_url")
+            }
+    return {"username": None, "base_url": None}
 
 def get_home_content(ui):
     global ui_ref
     ui_ref = ui
-    username = get_username()
+    user_info = get_user_info()
     
     def logout(e):
         data_dir = os.getenv("FLET_APP_STORAGE_DATA")
@@ -27,22 +30,38 @@ def get_home_content(ui):
 
     header = ft.Container(
         content=ft.Column([
-            ft.Text("仪表盘", size=24, weight=ft.FontWeight.BOLD),
+            ft.Container(
+                content=ft.Text("仪表盘", size=24, weight=ft.FontWeight.BOLD),
+                padding=ft.padding.only(bottom=20)
+            ),
             ft.Row([
                 ft.Container(
-                    content=ft.Stack([
-                        ft.Text("用户信息", size=14, top=10, left=10),
-                        ft.Container(
-                            content=ft.Column([
-                                ft.Text(f"{username if username else '访客'}",
-                                       size=20, weight=ft.FontWeight.BOLD),
-                                ft.Text("当前用户", size=14)
+                    content=ft.Stack(
+                        controls=[
+                            ft.Text("用户信息", size=14, top=0, left=10),
+                            ft.Container(
+                            content=ft.Row([
+                                ft.Column([
+                                    ft.Text(f"{user_info['base_url'] if user_info['base_url'] else '未设置'}",
+                                           size=20, weight=ft.FontWeight.BOLD),
+                                    ft.Text("BASE_URL", size=14)
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                                ft.VerticalDivider(width=1, color=theme_colors["border"]),
+                                ft.Column([
+                                    ft.Text(f"{user_info['username'] if user_info['username'] else '访客'}",
+                                           size=20, weight=ft.FontWeight.BOLD),
+                                    ft.Text("当前用户", size=14)
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER)
                             ],
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                            spacing=20,
+                            alignment=ft.MainAxisAlignment.CENTER),
                             alignment=ft.alignment.center,
                             height=120,
-                            padding=ft.padding.only(top=20)
+                            padding=ft.padding.only(top=10)
                         )
                     ]),
                     padding=20,
@@ -52,11 +71,22 @@ def get_home_content(ui):
                     height=120
                 ),
                 ft.Container(
-                    content=ft.IconButton(
-                        icon=ft.icons.LOGOUT,
+                    content=ft.Button(
+                        content=ft.Column([
+                            ft.Icon(ft.Icons.LOGOUT, size=20),
+                            ft.Text("登出", size=12)
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=3),
                         on_click=logout,
-                        icon_size=30,
-                        tooltip="登出"
+                        height=60,
+                        width=80,
+                        style=ft.ButtonStyle(
+                            padding=ft.padding.symmetric(horizontal=10, vertical=5),
+                            bgcolor=ft.Colors.RED_900,
+                            color=ft.Colors.RED_400
+                        )
                     ),
                     padding=10,
                     bgcolor=theme_colors["surface"],
@@ -64,8 +94,7 @@ def get_home_content(ui):
                     height=120
                 )
             ], spacing=10)
-        ]),
-        padding=ft.padding.only(bottom=20)
+        ])
     )
     
     stats_row = ft.Row([
@@ -120,12 +149,12 @@ def get_home_content(ui):
                 ft.ListTile(
                     title=ft.Text("完成作业1"),
                     subtitle=ft.Text("2小时前"),
-                    leading=ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE)
+                    leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE)
                 ),
                 ft.ListTile(
                     title=ft.Text("收到新消息"),
                     subtitle=ft.Text("4小时前"),
-                    leading=ft.Icon(ft.icons.MESSAGE_OUTLINED)
+                    leading=ft.Icon(ft.Icons.MESSAGE_OUTLINED)
                 )
             ], spacing=5)
         ]),

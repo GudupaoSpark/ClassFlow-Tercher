@@ -25,7 +25,7 @@ def main(page: ft.Page):
     global ui
     pages = get_pages()
     ui = UIBase(pages, theme_colors)
-
+    
     ui.get_ui()(page)
 
 
