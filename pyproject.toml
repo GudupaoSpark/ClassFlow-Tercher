@@ -1,5 +1,5 @@
 [project]
-name = "flet"
+name = "ClassFlow-Tercher"
 version = "0.1.0"
 description = ""
 readme = "README.md"
@@ -8,21 +8,20 @@ dependencies = [
   "flet==0.25.1"
 ]
 
-
 [tool.flet]
 # org name in reverse domain name notation, e.g. "com.mycompany".
 # Combined with project.name to build bundle ID for iOS and Android apps
-org = "com.mycompany"
+org = "top.gudupao"
 
 # project display name that is used as an app title on Android and iOS home screens,
 # shown in window titles and about app dialogs on desktop.
-product = "flet"
+product = "classflow"
 
 # company name to display in about app dialogs
-company = "Flet"
+company = "Gudupao"
 
 # copyright text to display in about app dialogs
-copyright = "Copyright (C) 2024 by Flet"
+copyright = "Copyright (C) 2024 by Gudupao"
 
 [tool.flet.app]
-path = "src"
+path = "."

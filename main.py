@@ -6,7 +6,6 @@ from const import *
 
 
 def get_pages():
-    data_dir = os.getenv("FLET_APP_STORAGE_DATA")
     user_exists = data_dir and os.path.exists(os.path.join(data_dir, "user.json"))
 
     pages = [

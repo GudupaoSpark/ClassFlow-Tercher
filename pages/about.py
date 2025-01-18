@@ -5,7 +5,7 @@ def get_about_content(ui):
     co = ft.Column(
         controls=[
             ft.Image(
-                src="src/assets/icon.png",
+                src="./assets/icon.png",
                 width=256,
                 height=256,
             ),

@@ -5,7 +5,6 @@ from const import *
 from . import login
 
 def get_user_info():
-    data_dir = os.getenv("FLET_APP_STORAGE_DATA")
     if data_dir and os.path.exists(os.path.join(data_dir, "user.json")):
         with open(os.path.join(data_dir, "user.json"), "r") as f:
             user_data = json.load(f)
@@ -21,7 +20,6 @@ def get_home_content(ui):
     user_info = get_user_info()
     
     def logout(e):
-        data_dir = os.getenv("FLET_APP_STORAGE_DATA")
         if data_dir and os.path.exists(os.path.join(data_dir, "user.json")):
             os.remove(os.path.join(data_dir, "user.json"))
             np = ui.pages
@@ -84,8 +82,7 @@ def get_home_content(ui):
                         width=80,
                         style=ft.ButtonStyle(
                             padding=ft.padding.symmetric(horizontal=10, vertical=5),
-                            bgcolor=ft.Colors.RED_900,
-                            color=ft.Colors.RED_400
+                            color=ft.Colors.RED_900
                         )
                     ),
                     padding=10,

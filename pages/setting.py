@@ -1,5 +1,6 @@
 import flet as ft
 from const import *
+import os
 
 def get_settings_content(ui):
     switch = ft.Switch(
@@ -14,7 +15,7 @@ def get_settings_content(ui):
                 "icon": ft.Icons.BUG_REPORT_ROUNDED,
                 "selected_icon": ft.Icons.BUG_REPORT_OUTLINED,
                 "label": "测试",
-                "func": lambda x: ft.Text("测试页面", color=theme_colors["text"], size=30),
+                "func": lambda x: ft.Text(os.getcwd(), color=theme_colors["text"], size=30),
             })
         
         ui.update_pages(new_pages)

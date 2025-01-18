@@ -1,3 +1,5 @@
+import os
+
 theme_colors = {
     "primary": "#60CDFF",
     "secondary": "#2B2B2B",
@@ -9,3 +11,8 @@ theme_colors = {
     "hover": "#2D2D2D",
     "selected": "#3B3B3B",
 }
+
+data_dir = os.getenv("appdata")+"/ClassFlow/Tercher"
+
+if not os.path.exists(data_dir):
+    os.makedirs(data_dir)

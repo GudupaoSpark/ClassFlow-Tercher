@@ -1,8 +1,5 @@
 import flet as ft
 import os
-import sys
-from rich import print
-
 
 class UIBase:
     def __init__(self, pages, theme_colors=None):
@@ -107,7 +104,7 @@ class UIBase:
                         content=ft.Container(
                             content=ft.Row(
                                 controls=[
-                                    ft.Image("src\\assets\\icon.png"),
+                                    ft.Image("assets/icon.png"),
                                     ft.Text(
                                         page.title,
                                         size=13,

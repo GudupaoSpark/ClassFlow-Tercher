@@ -2,6 +2,7 @@ import flet as ft
 import os
 import json
 from . import home
+from const import *
 
 def get_login_content(ui):
 
@@ -33,7 +34,6 @@ def get_login_content(ui):
         print(f"Username: {username.value}, Password: {password.value}")
         
         # 保存用户信息
-        data_dir = os.getenv("FLET_APP_STORAGE_DATA")
         if data_dir:
             user_data = {
                 "base_url": base_url.value,
@@ -58,7 +58,7 @@ def get_login_content(ui):
     co = ft.Column(
         controls=[
             ft.Image(
-                src="src/assets/icon.png",
+                src="./assets/icon.png",
                 width=150,
                 height=150,
             ),
