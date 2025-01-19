@@ -12,7 +12,10 @@ theme_colors = {
     "selected": "#3B3B3B",
 }
 
-data_dir = os.getenv("appdata")+"/ClassFlow/Tercher"
+if os.name == "nt":
+    data_dir = os.getenv("appdata")+"/ClassFlow/Tercher"
+else:
+    data_dir = os.getenv("HOME")+"/.ClassFlow/Tercher"
 
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)

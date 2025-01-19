@@ -2,6 +2,10 @@ import flet as ft
 from const import *
 import os
 
+def test(e):
+    return ft.Column(
+        controls=[ft.Text("测试"),ft.Text(os.getcwd(), color=theme_colors["text"], size=30)])
+
 def get_settings_content(ui):
     switch = ft.Switch(
         label="显示测试页面",
@@ -15,7 +19,7 @@ def get_settings_content(ui):
                 "icon": ft.Icons.BUG_REPORT_ROUNDED,
                 "selected_icon": ft.Icons.BUG_REPORT_OUTLINED,
                 "label": "测试",
-                "func": lambda x: ft.Text(os.getcwd(), color=theme_colors["text"], size=30),
+                "func": test,
             })
         
         ui.update_pages(new_pages)
