@@ -10,6 +10,7 @@ theme_colors = {
     "border": "#404040",
     "hover": "#2D2D2D",
     "selected": "#3B3B3B",
+    "bgcolor": "#101010",
 }
 
 if os.name == "nt":

@@ -14,6 +14,7 @@ class UIBase:
             "border": "#404040",
             "hover": "#2D2D2D",
             "selected": "#3B3B3B",
+            "bgcolor": "#202020",
         }
         self.the_page = None
         self.current_index = 0
@@ -155,6 +156,7 @@ class UIBase:
             content=ft.Text("主页内容", color=self.theme_colors["text"]),
             expand=True,
             padding=20,
+            bgcolor=self.theme_colors["bgcolor"],
         )
 
     def create_main_layout(self, page: ft.Page):
