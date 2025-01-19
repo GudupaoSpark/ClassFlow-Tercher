@@ -22,6 +22,10 @@ def get_pages():
 
 def main(page: ft.Page):
     global ui
+    page.fonts = {
+        "sy": f"{assets_dir}/fonts/sy.otf",
+    }
+    page.theme = ft.Theme(font_family="sy")
     pages = get_pages()
     ui = UIBase(pages, theme_colors)
     
