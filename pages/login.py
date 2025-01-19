@@ -58,7 +58,7 @@ def get_login_content(ui):
     co = ft.Column(
         controls=[
             ft.Image(
-                src="./assets/icon.png",
+                src=f"{assets_dir}/icon.png",
                 width=150,
                 height=150,
             ),

@@ -11,12 +11,15 @@ theme_colors = {
     "hover": "#2D2D2D",
     "selected": "#3B3B3B",
     "bgcolor": "#101010",
+    
 }
 
 if os.name == "nt":
     data_dir = os.getenv("appdata")+"/ClassFlow/Tercher"
 else:
     data_dir = os.getenv("HOME")+"/.ClassFlow/Tercher"
+
+assets_dir = os.path.abspath(".")+"/assets"
 
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)

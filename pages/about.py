@@ -1,11 +1,12 @@
 import flet as ft
 import webbrowser
+from const import *
 
 def get_about_content(ui):
     co = ft.Column(
         controls=[
             ft.Image(
-                src="./assets/icon.png",
+                src=f"{assets_dir}/icon.png",
                 width=256,
                 height=256,
             ),

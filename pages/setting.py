@@ -8,7 +8,7 @@ def test(e):
         controls=[
             ft.Text("测试"),
             ft.Text(os.getcwd(), color=theme_colors["text"], size=30),
-            ft.Text(os.path.abspath("./assets/icon.png"), color=theme_colors["text"], size=30),
+            ft.Text(os.path.abspath(f"{assets_dir}/icon.png"), color=theme_colors["text"], size=30),
         ]
     )
 
