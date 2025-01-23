@@ -1,6 +1,7 @@
 import flet as ft
 from const import *
 import os
+import json
 
 
 def test(e):
@@ -18,6 +19,20 @@ def get_settings_content(ui):
         label="显示测试页面", value="测试" in [page["label"] for page in ui.pages]
     )
 
+    # 读取保存的base_url
+    config_path = os.path.join(data_dir, "config.json")
+    config = {}
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            config = json.load(f)
+
+    base_url = ft.TextField(
+        label="BASE_URL",
+        width=600,
+        hint_text="请包括协议头",
+        value=config.get("base_url", "")
+    )
+
     def toggle_test_page(e):
         new_pages = [page for page in ui.pages if page["label"] != "测试"]
         if switch.value:
@@ -32,10 +47,20 @@ def get_settings_content(ui):
 
         ui.update_pages(new_pages)
 
+    def save_base_url(e):
+        config["base_url"] = base_url.value
+        with open(config_path, "w") as f:
+            json.dump(config, f)
+
     switch.on_change = toggle_test_page
+    base_url.on_change = save_base_url
 
     return ft.Column(
-        controls=[ft.Text("设置", color=theme_colors["text"], size=20), switch],
+        controls=[
+            ft.Text("设置", color=theme_colors["text"], size=20),
+            switch,
+            base_url
+        ],
         spacing=20,
         alignment=ft.MainAxisAlignment.START,
         horizontal_alignment=ft.CrossAxisAlignment.START,

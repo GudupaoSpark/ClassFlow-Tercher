@@ -3,17 +3,28 @@ import os
 import json
 from . import home
 from const import *
+from encrypt import en_req
 
 def get_login_content(ui):
 
     def on_login_click(e):
+        # 读取配置
+        config_path = os.path.join(data_dir, "config.json")
+        if not os.path.exists(config_path):
+            ui.base_url_error = "请先在设置中配置 BASE_URL"
+            ui.the_page.update()
+            return
+            
+        with open(config_path, "r") as f:
+            config = json.load(f)
+            
         # 验证输入
         has_error = False
-        if not base_url.value:
-            base_url.error_text = "请输入 BASE_URL"
+        if not config.get("base_url"):
+            ui.base_url_error = "请先在设置中配置 BASE_URL"
             has_error = True
         else:
-            base_url.error_text = None
+            ui.base_url_error = None
             
         if not username.value:
             username.error_text = "请输入用户名"
@@ -31,27 +42,17 @@ def get_login_content(ui):
             ui.the_page.update()
             return
             
-        print(f"Username: {username.value}, Password: {password.value}")
-        
-        # 保存用户信息
-        if data_dir:
-            user_data = {
-                "base_url": base_url.value,
-                "username": username.value,
-                "password": password.value
-            }
-            with open(os.path.join(data_dir, "user.json"), "w") as f:
-                json.dump(user_data, f)
+        # 使用info模块发送登录请求
+        from reqs import info
+        if not info.send_login_request(username.value, password.value, ui):
+            password.error_text = "登录失败，请检查用户名和密码"
+            ui.the_page.update()
+            return
         
         np = ui.pages
         np[0] = home.page
         ui.update_pages(np)
 
-    base_url = ft.TextField(
-        label="BASE_URL",
-        width=600,
-        hint_text="请包括协议头"
-    )
     username = ft.TextField(label="用户名", width=600)
     password = ft.TextField(label="密码", password=True, width=600)
     
@@ -64,7 +65,6 @@ def get_login_content(ui):
             ),
             ft.Text("ClassFlow", size=50),
             ft.Text("登录教师账号", size=30),
-            base_url,
             username,
             password,
             ft.Row(

@@ -8,16 +8,26 @@ def get_user_info():
     if data_dir and os.path.exists(os.path.join(data_dir, "user.json")):
         with open(os.path.join(data_dir, "user.json"), "r") as f:
             user_data = json.load(f)
-            return {
-                "username": user_data.get("username"),
-                "base_url": user_data.get("base_url")
-            }
-    return {"username": None, "base_url": None}
+            return user_data
+    return {"username": None}
+
+def get_base_url():
+    if data_dir and os.path.exists(os.path.join(data_dir, "config.json")):
+        with open(os.path.join(data_dir, "config.json"), "r") as f:
+            config = json.load(f)
+            return config.get("base_url")
+    return None
 
 def get_home_content(ui):
+    # 从云端更新用户信息
+    from reqs import info
+    user_info = info.refresh_user_info_from_cloud(ui)
+    if user_info:
+        print(f"用户信息已更新: {user_info}")
     global ui_ref
     ui_ref = ui
     user_info = get_user_info()
+    base_url = get_base_url()
     
     def logout(e):
         if data_dir and os.path.exists(os.path.join(data_dir, "user.json")):
@@ -40,7 +50,7 @@ def get_home_content(ui):
                             ft.Container(
                             content=ft.Row([
                                 ft.Column([
-                                    ft.Text(f"{user_info['base_url'] if user_info['base_url'] else '未设置'}",
+                                    ft.Text(f"{base_url if base_url else '未设置'}",
                                            size=20, weight=ft.FontWeight.BOLD),
                                     ft.Text("BASE_URL", size=14)
                                 ],
@@ -51,6 +61,15 @@ def get_home_content(ui):
                                     ft.Text(f"{user_info['username'] if user_info['username'] else '访客'}",
                                            size=20, weight=ft.FontWeight.BOLD),
                                     ft.Text("当前用户", size=14)
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                                ft.VerticalDivider(width=1, color=theme_colors["border"]),
+                                ft.Column([
+                                    ft.Text(f"账号管理: {['无权', '可读', '可写'][user_info['role']['user_ctrl']]}",
+                                           size=16, weight=ft.FontWeight.BOLD),
+                                    ft.Text(f"课表管理: {['无权', '可读', '可写'][user_info['role']['class_ctrl']]}",
+                                           size=16, weight=ft.FontWeight.BOLD)
                                 ],
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER)
